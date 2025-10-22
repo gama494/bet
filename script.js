@@ -69,9 +69,8 @@ document.getElementById('signupForm').addEventListener('submit', async e => {
   const phone = document.getElementById('signupPhone').value.trim();
   const email = document.getElementById('signupEmail').value.trim();
   const pwd = document.getElementById('signupPassword').value;
-  const cpwd = document.getElementById('signupConfirmPassword').value;
 
-  if (!phone || !email || !pwd || pwd !== cpwd) return showAlert('Fill all fields / passwords must match');
+  if (!phone || !email || !pwd) return showAlert('Please fill all fields.');
   if (pwd.length < 6) return showAlert('Password must be 6+ characters');
 
   const fullPhone = country + phone;
@@ -112,7 +111,10 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
   setLoading(btn, true);
 
   try {
-    // SEARCH FIRESTORE BY PHONE
+    // SPARK PLAN WORKAROUND:
+    // Firebase Phone Auth requires a paid plan. To stay on the free Spark plan,
+    // we implement a custom phone/password login flow.
+    // 1. We search our Firestore database for a user document with the provided phone number.
     const snapshot = await db
       .collection('betting')
       .where('phone', '==', fullPhone)
@@ -125,10 +127,12 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
       return;
     }
 
+    // 2. We retrieve the email address associated with that phone number.
     const userDoc = snapshot.docs[0].data();
     const email = userDoc.email;
 
-    // SIGN IN WITH EMAIL + PASSWORD
+    // 3. We use the retrieved email and the user-provided password to sign in
+    //    using Firebase's standard Email/Password authentication method.
     await auth.signInWithEmailAndPassword(email, pwd);
     window.location.href = 'main.html';
 
@@ -137,6 +141,7 @@ document.getElementById('loginForm').addEventListener('submit', async e => {
     if (err.code === 'auth/wrong-password') {
       showAlert('Incorrect password');
     } else if (err.code === 'auth/user-not-found') {
+      // This error might appear if the user was deleted from Auth but not Firestore
       showAlert('No account found');
     } else {
       showAlert('Login failed. Try again.');
