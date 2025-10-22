@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K BETS – Login / Signup</title>
+
+  <!-- Bootstrap 5 + Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-dark">
+
+  <div class="container d-flex align-items-center justify-content-center min-vh-100 px-3">
+    <div class="card glass-card shadow-lg animate__animated animate__fadeIn" style="max-width: 440px; width: 100%;">
+      <div class="card-header text-center py-4 border-0 bg-gradient-primary">
+        <h3 class="mb-0 text-white fw-bold d-flex align-items-center justify-content-center gap-2">
+          <i class="fas fa-coins text-warning"></i> K BETS
+        </h3>
+      </div>
+
+      <div class="card-body p-4">
+        <!-- Tabs -->
+        <ul class="nav nav-pills mb-4 justify-content-center gap-2" id="authTab">
+          <li class="nav-item flex-fill">
+            <button class="nav-link active w-100 d-flex align-items-center justify-content-center gap-2" data-bs-toggle="tab" data-bs-target="#login">
+              <i class="fas fa-sign-in-alt"></i> Login
+            </button>
+          </li>
+          <li class="nav-item flex-fill">
+            <button class="nav-link w-100 d-flex align-items-center justify-content-center gap-2" data-bs-toggle="tab" data-bs-target="#signup">
+              <i class="fas fa-user-plus"></i> Signup
+            </button>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+          <!-- LOGIN -->
+          <div class="tab-pane fade show active" id="login">
+            <form id="loginForm" novalidate>
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-primary text-white"><i class="fas fa-flag"></i></span>
+                <select class="country-select form-select" id="loginCountry" required></select>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-primary text-white"><i class="fas fa-phone"></i></span>
+                <input type="tel" class="form-control" id="loginPhone" placeholder="991234567" required>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-primary text-white"><i class="fas fa-lock"></i></span>
+                <input type="password" class="form-control" id="loginPassword" placeholder="Password" required>
+              </div>
+
+              <button type="submit" class="btn btn-primary w-100 btn-glow position-relative d-flex align-items-center justify-content-center gap-2">
+                <span class="btn-text"><i class="fas fa-sign-in-alt"></i> LOGIN</span>
+                <span class="spinner"></span>
+              </button>
+
+              <div class="text-center mt-3">
+                <button type="button" id="forgotBtn" class="btn btn-link text-light text-decoration-none d-flex align-items-center gap-1 mx-auto">
+                  <i class="fas fa-question-circle"></i> Forgot Password?
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <!-- SIGNUP -->
+          <div class="tab-pane fade" id="signup">
+            <form id="signupForm" novalidate>
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-success text-white"><i class="fas fa-flag"></i></span>
+                <select class="country-select form-select" id="signupCountry" required></select>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-success text-white"><i class="fas fa-phone"></i></span>
+                <input type="tel" class="form-control" id="signupPhone" placeholder="991234567" required>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-success text-white"><i class="fas fa-envelope"></i></span>
+                <input type="email" class="form-control" id="signupEmail" placeholder="you@example.com" required>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-success text-white"><i class="fas fa-lock"></i></span>
+                <input type="password" class="form-control" id="signupPassword" placeholder="Password" required>
+              </div>
+              <div class="input-group mb-3">
+                <span class="input-group-text bg-success text-white"><i class="fas fa-lock"></i></span>
+                <input type="password" class="form-control" id="signupConfirmPassword" placeholder="Confirm Password" required>
+              </div>
+
+              <button type="submit" class="btn btn-success w-100 btn-glow position-relative d-flex align-items-center justify-content-center gap-2">
+                <span class="btn-text"><i class="fas fa-user-plus"></i> CREATE ACCOUNT</span>
+                <span class="spinner"></span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- FORGOT PASSWORD -->
+        <div id="forgotSection" class="mt-4" style="display:none;">
+          <div class="input-group mb-3">
+            <span class="input-group-text bg-warning text-dark"><i class="fas fa-flag"></i></span>
+            <select class="country-select form-select" id="forgotCountry"></select>
+          </div>
+          <div class="input-group mb-3">
+            <span class="input-group-text bg-warning text-dark"><i class="fas fa-phone"></i></span>
+            <input type="tel" class="form-control" id="forgotPhone" placeholder="991234567">
+          </div>
+          <button id="sendResetBtn" class="btn btn-warning w-100 btn-glow position-relative d-flex align-items-center justify-content-center gap-2">
+            <span class="btn-text"><i class="fas fa-paper-plane"></i> SEND RESET LINK</span>
+            <span class="spinner"></span>
+          </button>
+          <button id="backToLoginBtn" class="btn btn-link w-100 mt-2 text-light d-flex align-items-center justify-content-center gap-1">
+            <i class="fas fa-arrow-left"></i> Back to Login
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- reCAPTCHA -->
+  <div id="recaptcha-container"></div>
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-functions-compat.js"></script>
+
+  <!-- jQuery + Bootstrap + Select2 -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+  <!-- Your Logic -->
+  <script src="script.js"></script>
+</body>
+</html>

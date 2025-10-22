@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K BETS – Dashboard</title>
+
+  <!-- Bootstrap 5 -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="main.css">
+</head>
+<body class="bg-dark text-light">
+
+  <!-- Sidebar Menu -->
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <h5 class="mb-0">Menu</h5>
+        <a id="sidebarCloseBtn" class="close-btn"><i class="fas fa-times"></i></a>
+    </div>
+    <a href="#" id="depositLink"><i class="fas fa-wallet fa-fw me-2"></i> Deposit</a>
+    <a href="#" id="withdrawLink"><i class="fas fa-money-bill-wave fa-fw me-2"></i> Withdraw</a>
+    <a href="#" id="historyLink"><i class="fas fa-history fa-fw me-2"></i> Transaction History</a>
+    <hr class="sidebar-divider">
+    <a href="#" id="changePasswordLink"><i class="fas fa-key fa-fw me-2"></i> Change Password</a>
+    <a href="#" id="deleteAccountLink"><i class="fas fa-user-times fa-fw me-2"></i> Delete Account</a>
+     <hr class="sidebar-divider">
+    <a href="#" id="termsLink"><i class="fas fa-file-contract fa-fw me-2"></i> Terms & Conditions</a>
+    <a href="#" id="contactLink"><i class="fas fa-headset fa-fw me-2"></i> Contact Us</a>
+    <hr class="sidebar-divider">
+    <a href="#" id="logoutBtn" class="text-danger"><i class="fas fa-sign-out-alt fa-fw me-2"></i> Logout</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container-fluid" id="main-content">
+      <header class="top-bar d-flex justify-content-between align-items-center p-3">
+          <button class="btn btn-dark" id="sidebarToggleBtn">
+              <i class="fas fa-bars"></i>
+          </button>
+          <h4 class="mb-0 text-white">Dashboard</h4>
+          <div></div> <!-- Placeholder for alignment -->
+      </header>
+
+      <main class="py-4 px-3">
+          <!-- Account Info Card -->
+          <div class="card glass-card account-card mb-4">
+              <div class="card-body d-flex align-items-center">
+                  <img id="userAvatar" src="" class="rounded-circle me-3" alt="User Avatar">
+                  <div>
+                      <small class="text-muted">Account ID</small>
+                      <h6 class="mb-0" id="userUid">...</h6>
+                  </div>
+              </div>
+          </div>
+          
+          <!-- Balance View -->
+          <div class="card glass-card balance-card mb-4">
+              <div class="card-body">
+                  <div class="d-flex justify-content-between align-items-center">
+                      <h6 class="text-muted mb-0">Total Balance</h6>
+                      <button class="btn btn-sm btn-outline-secondary" id="refreshBalanceBtn">
+                          <i class="fas fa-sync-alt"></i>
+                      </button>
+                  </div>
+                  <h2 class="display-6 fw-bold mb-0" id="userBalance">Loading...</h2>
+              </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="card glass-card mb-4">
+              <div class="card-body">
+                  <h5 class="mb-3">Quick Actions</h5>
+                  <div class="d-grid gap-3">
+                      <button class="btn btn-success btn-lg" id="mainDepositBtn"><i class="fas fa-plus me-2"></i> Deposit</button>
+                      <button class="btn btn-danger btn-lg" id="mainWithdrawBtn"><i class="fas fa-arrow-down me-2"></i> Withdraw</button>
+                  </div>
+              </div>
+          </div>
+
+          <!-- Games Section -->
+          <div class="card glass-card">
+              <div class="card-body">
+                <h5 class="mb-3">Games</h5>
+                <a href="crash-game.html" class="game-card-link">
+                  <div class="card game-card">
+                      <div class="game-card-poster">
+                        <div class="poster-overlay"></div>
+                        <h4 class="game-card-title">K CRASH</h4>
+                        <button class="btn btn-success btn-sm play-now-btn">Play Now <i class="fas fa-arrow-right"></i></button>
+                      </div>
+                  </div>
+                </a>
+              </div>
+          </div>
+      </main>
+  </div>
+
+  <!-- Deposit Modal -->
+  <div class="modal fade" id="depositModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content glass-card">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fas fa-wallet me-2 text-success"></i> Deposit Funds</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="depositAmount" class="form-label">Amount (MK)</label>
+            <input type="number" class="form-control" id="depositAmount" placeholder="e.g., 5000">
+          </div>
+          <button class="btn btn-success w-100" id="proceedToPaychanguBtn">
+            Proceed to PayChangu
+            <i class="fas fa-arrow-right ms-2"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Paychangu Simulation Modal -->
+  <div class="modal fade" id="paychanguModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content glass-card">
+        <div class="modal-header">
+          <h5 class="modal-title">PayChangu Gateway</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body text-center py-5">
+            <div id="paychangu-loader">
+              <div class="spinner-border text-success" role="status" style="width: 3rem; height: 3rem;">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p class="mt-3">Connecting to payment gateway...</p>
+            </div>
+            <div id="paychangu-success" style="display: none;">
+                <i class="fas fa-check-circle text-success fa-3x mb-3"></i>
+                <h4>Payment Successful!</h4>
+                <p>Your balance has been updated.</p>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Withdraw Modal -->
+  <div class="modal fade" id="withdrawModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content glass-card">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fas fa-money-bill-wave me-2 text-danger"></i> Withdraw Funds</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label for="withdrawPhone" class="form-label">Phone Number</label>
+            <input type="tel" class="form-control" id="withdrawPhone" placeholder="099xxxxxxx">
+          </div>
+          <div class="mb-3">
+            <label for="withdrawAmount" class="form-label">Amount (MK)</label>
+            <input type="number" class="form-control" id="withdrawAmount" placeholder="e.g., 1000">
+          </div>
+          <button class="btn btn-danger w-100" id="processWithdrawBtn">Confirm Withdrawal</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Transaction History Modal -->
+  <div class="modal fade" id="historyModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+      <div class="modal-content glass-card">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fas fa-history me-2 text-info"></i> Transaction History</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <div id="transactionsList" class="list-group"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Change Password Modal -->
+  <div class="modal fade" id="changePasswordModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content glass-card">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fas fa-key me-2"></i> Change Password</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Feature coming soon. For now, please contact support to change your password.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Delete Account Modal -->
+  <div class="modal fade" id="deleteAccountModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content glass-card">
+        <div class="modal-header">
+          <h5 class="modal-title text-danger"><i class="fas fa-exclamation-triangle me-2"></i> Delete Account</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>Are you absolutely sure you want to delete your account? This action is irreversible and all your data will be lost.</p>
+          <button class="btn btn-danger w-100" id="confirmDeleteBtn">Yes, Delete My Account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Terms Modal -->
+  <div class="modal fade" id="termsModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg modal-dialog-scrollable">
+      <div class="modal-content glass-card">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fas fa-file-contract me-2"></i> Terms & Conditions</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <h6>1. Introduction</h6>
+          <p>Welcome to K BETS. By using our services, you agree to be bound by these terms and conditions.</p>
+          <h6>2. Eligibility</h6>
+          <p>You must be 18 years of age or older to use this service. It is your responsibility to ensure that gambling is legal in your jurisdiction.</p>
+          <h6>3. Account Responsibility</h6>
+          <p>You are responsible for maintaining the confidentiality of your account information, including your password. All activities that occur under your account are your responsibility.</p>
+          <!-- Add more terms as needed -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contact Us Modal -->
+  <div class="modal fade" id="contactModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content glass-card">
+        <div class="modal-header">
+          <h5 class="modal-title"><i class="fas fa-headset me-2"></i> Contact Us</h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <p>If you need help or have any questions, please reach out to our support team:</p>
+          <ul class="list-unstyled">
+            <li><i class="fas fa-envelope fa-fw me-2"></i> support@kbets.com</li>
+            <li><i class="fas fa-phone fa-fw me-2"></i> +123 456 7890</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <script type="module" src="main.js"></script>
+
+</body>
+</html>
+https://img.icons8.com/?size=100&id=WTxhy5HEcZ7d&format=png&color=000000
